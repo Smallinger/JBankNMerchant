@@ -12,7 +12,8 @@ What exactly can Merchant & Bank and what options exist?
  * Automatic repair with the option of using only your own gold or start repaired by the guild bank. If that is not enough, the rest will be repaired with your gold
  
  * Automatically deposit your reagents in the Reagents tab on your bank. Here you can additionally set an IsKeyDown () menas, as soon as you hold "Shift, Ctrl or Alt" and open your bank, no items are deposited.
- 
+
+There is also the possibility to let you spend everything in the chat. To open the setting, simply type "/ mnb" in the chat or press "ESC -> Interface -> AddOns -> Merchant & Bank Tools".
 
 # German Translation
 ## Was ist Merchant & Bank Tools ?
@@ -30,6 +31,8 @@ Was genau kann Merchant & Bank und welche Optionen gibt es ?
 
 
  * Automatisches Deponieren deiner Reagenzien im Reagenzien Tab auf deiner Bank. Hier kannst du zusätzlich einen IsKeyDown() einstellen, bedeutet, sobald du "Shift, Strg oder Alt" gedrückt hältst und dein Bankfach öffnest, werden keine Gegenstände deponiert. Halte hierfür einfach die Eingestellte taste fest und Klicke mit einem Rechtsklick auf die Bank.
+ 
+Außerdem gibt es die Möglichkeit dir alles im Chat ausgeben zu lassen. Um die Einstellung zu öffnen, schreibe einfach "/mnb" in den Chat oder drücke "ESC -> Interface -> AddOns -> Merchant & Bank Tools".
 
 # To do...
 
