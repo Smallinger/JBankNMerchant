@@ -1,5 +1,5 @@
-## German Translation
-# Was ist Merchant & Bank Tools ?
+# German Translation
+## Was ist Merchant & Bank Tools ?
 
 Merchant & Bank Tools, oder auch einfach MerchantNBank, ist ein Addon was Dir in vielen Momenten eine automatisierte Lösung bereitstellt, Diese kannst du dann auch mit verschiedeneb Optionen einstellen.
 
