@@ -15,15 +15,16 @@ function addon:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("jMerchantNBankDB")
 	self.db:RegisterDefaults({
 		char = {
-			mAuto = true,
-			rAuto = true,
-			bAuto = true,
-			max12 = true,
-			mPrintGold = true,
-			rPrintGold = true,
-			mShowSpam = true,
-			bSilentMode = true,
-			repairMode = "1"
+			mAuto		= true,
+			rAuto		= true,
+			bAuto		= true,
+			max12		= true,
+			mPrintGold	= true,
+			rPrintGold	= true,
+			mShowSpam	= true,
+			bSilentMode	= true,
+			repairMode	= 1,
+			bankModKey	= 0
 		}
 	})
 	self:PopulateOptions()
@@ -55,7 +56,11 @@ end
 
 function addon:BANKFRAME_OPENED()
 	if addon.db.char.bAuto then
-		self:Deposits()
+		if (addon.db.char.bankModKey == 1 and IsShiftKeyDown()) or (addon.db.char.bankModKey == 2 and IsControlKeyDown()) or (addon.db.char.bankModKey == 3 and IsAltKeyDown()) then
+			return
+		else
+			self:Deposits()
+		end
 	end
 end
 
@@ -94,7 +99,7 @@ function addon:Repair()
 		if (canRepair and repairAllCost > 0) then
 			-- Use Guild Bank
 			guildRepairedItems = false
-			if addon.db.char.repairMode == "2" then
+			if addon.db.char.repairMode == 2 then
 				if (IsInGuild() and CanGuildBankRepair()) then
 					-- Checks if guild has enough money
 					local amount = GetGuildBankWithdrawMoney()
@@ -122,7 +127,7 @@ function addon:Repair()
 					end
 				end
 			end
-			if addon.db.char.repairMode == "1" then
+			if addon.db.char.repairMode == 1 then
 				-- Use only own funds
 				if (repairAllCost <= GetMoney() and not guildRepairedItems) then
 					RepairAllItems(false);
@@ -290,8 +295,8 @@ function addon:PopulateOptions()
 							desc    = "Select your Repair mode.\n1.Repairs only from your own gold.\n2.Tries to repair from guild bank, then tries to repair from your own gold.",
 							style	= "radio",
 							values 	= {
-								["1"] = "Repair from own gold",
-								["2"] = "Use first guild bank",
+								[1] = "Repair from own gold",
+								[2] = "Use first guild bank",
 							},
 							get   	= function(info, value) return self.db.char.repairMode end,
 							set		= function(info, value) self.db.char.repairMode = value end,
@@ -332,26 +337,46 @@ function addon:PopulateOptions()
 							type	= "description",
 							name	= "",
 						},
-						divider15 = {
+						bankKeyDropdownMenu = {
 							order	= 22,
-							type	= "header",
-							name	= "Informations",
+							type 	= "select",
+							name    = "Don't run with key is down",
+							desc    = "Don't run 'deposits reagents' with key is down.",
+							style	= "dropdown",
+							values 	= {
+								[0] = "none",
+								[1] = "shift",
+								[2] = "ctrl",
+								[3] = "alt",
+							},
+							get   	= function(info, value) return self.db.char.bankModKey end,
+							set		= function(info, value) self.db.char.bankModKey = value end,
 						},
-						divider16 = {
+						divider15 = {
 							order	= 23,
 							type	= "description",
 							name	= "",
 						},
-						informationDescription = {
+						divider16 = {
 							order	= 24,
+							type	= "header",
+							name	= "Informations",
+						},
+						divider17 = {
+							order	= 25,
+							type	= "description",
+							name	= "",
+						},
+						informationDescription = {
+							order	= 26,
 							type	= "description",
 							width	= "full",
 							name	= [[
             MerchantNBank Tools by Junxx @ Khaz'goroth - EU / Smallinger on wowinterface.com or Curse.com
                                 ]],
 						},
-						divider16 = {
-							order	= 25,
+						divider18 = {
+							order	= 27,
 							type	= "description",
 							name	= "",
 						},
