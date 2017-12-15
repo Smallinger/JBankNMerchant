@@ -20,3 +20,15 @@ Was genau kann Merchant & Bank und welche Optionen gibt es ?
 ### Stuff used to make this:
 
  * [ACE3](https://www.wowace.com/projects/ace3) as development framework
+
+
+# To do...
+
+- [x] First script creation.
+- [ ] Multi language support.
+
+# Changelog
+
+## 1.0
+
+- First released version! 🎉
