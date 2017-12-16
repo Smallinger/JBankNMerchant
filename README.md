@@ -37,9 +37,25 @@ Außerdem gibt es die Möglichkeit dir alles im Chat ausgeben zu lassen. Um die 
 # To do...
 
 - [x] First script creation.
-- [ ] Multi language support.
+- [x] Add localization support!
+-- [x] enUS!
+-- [x] ruRU!
+-- [ ] deDE!
+-- [ ] ptBR!
+-- [ ] frFR!
+-- [ ] itIT!
+-- [ ] koKR!
+-- [ ] esES!
+-- [ ] esMX!
+-- [ ] zhCN!
+-- [ ] zhTW!
+
 
 # Changelog
+## 1.1
+
+- Add localization support!
+- first localization added, Russian provided by [Hubbotu](https://wow.curseforge.com/members/Hubbotu)
 
 ## 1.0
 
