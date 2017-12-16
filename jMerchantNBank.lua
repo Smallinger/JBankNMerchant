@@ -3,8 +3,12 @@ local addon	= LibStub("AceAddon-3.0"):GetAddon("Merchant & Bank Tools")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
-local addonName, addonTable = ...
-local L = addonTable.L
+local ADDON_NAME, namespace = ...;
+local L = LibStub('AceLocale-3.0'):GetLocale(ADDON_NAME, true);
+if(not L) then
+	error("Please restart game after updating the addon.");
+end
+
 local _
 
 addon.optionsFrame = {}
@@ -50,7 +54,7 @@ end
 
 function addon:PrintGold()
 	if self.total > 0 then
-		self:Print("Gained"..": "..GetMoneyString(self.total))
+		self:Print(L["Gained"]..": "..GetMoneyString(self.total))
 	end
 end
 
@@ -88,7 +92,7 @@ function addon:Deposits()
 	BankFrameItemButton_Update_PASS = true
 	DepositReagentBank()
 	if addon.db.char.bSilentMode then
-		self:Print("Reagents deposited into Reagent Bank.")
+		self:Print(L["Reagents deposited into Reagent Bank."])
 	end
 end
 
@@ -109,7 +113,7 @@ function addon:Repair()
 						RepairAllItems(true);
 						guildRepairedItems = true
 						if addon.db.char.rPrintGold then
-							self:Print("Your items have been repaired from Guild for: "..GetCoinTextureString(repairAllCost)..".")
+							self:Print(L["Your items have been repaired from Guild for: "]..GetCoinTextureString(repairAllCost)..".")
 						end
 					end
 				end
@@ -118,11 +122,11 @@ function addon:Repair()
 					if (repairAllCost <= GetMoney()) then
 						RepairAllItems(false);
 						if addon.db.char.rPrintGold then
-							self:Print("Your items have been repaired for "..GetCoinTextureString(repairAllCost)..".")
+							self:Print(L["Your items have been repaired for: "]..GetCoinTextureString(repairAllCost)..".")
 						end
 					else
 						if addon.db.char.rPrintGold then
-							self:Print("You don't have enough money for repair!")
+							self:Print(L["You don't have enough money for repair!"])
 						end
 					end
 				end
@@ -132,11 +136,11 @@ function addon:Repair()
 				if (repairAllCost <= GetMoney() and not guildRepairedItems) then
 					RepairAllItems(false);
 					if addon.db.char.rPrintGold then
-						self:Print("Your items have been repaired for "..GetCoinTextureString(repairAllCost)..".")
+						self:Print(L["Your items have been repaired for: "]..GetCoinTextureString(repairAllCost)..".")
 					end
 				else
 					if addon.db.char.rPrintGold then
-						self:Print("You don't have enough money for repair!")
+						self:Print(L["You don't have enough money for repair!"])
 					end
 				end
 			end
@@ -155,19 +159,16 @@ function addon:Sell()
 			local CurrentItemLink = GetContainerItemLink(myBags,bagSlots)
 			if CurrentItemLink then
 				-- is it grey quality item?
-				--local grey = string_find(item,"|cff9d9d9d")
 				_, _, itemRarity, _, _, _, _, _, _, _, itemSellPrice = GetItemInfo(CurrentItemLink)
 				_, itemCount = GetContainerItemInfo(myBags, bagSlots)
-				--if (grey and (not addon:isException(item))) or ((not grey) and (addon:isException(item))) then
 				if itemRarity == 0 and itemSellPrice ~= 0 then
 					currPrice = (select(11, GetItemInfo(CurrentItemLink)) or 0) * select(2, GetContainerItemInfo(myBags, bagSlots))
-					-- this should get rid of problems with grey items, that cant be sell to a vendor
 					if currPrice > 0 then
 						addon:AddProfit(currPrice)
 						PickupContainerItem(myBags, bagSlots)
 						PickupMerchantItem()
 						if showSpam then
-							self:Print("Sold"..": "..CurrentItemLink)
+							self:Print(L["Sold"]..": "..CurrentItemLink)
 						end
 
 						if max12 then
@@ -203,13 +204,13 @@ function addon:PopulateOptions()
 						divider1 = {
 							order	= 1,
 							type	= "header",
-							name	= "Merchant Settings",
+							name	= L["Merchant Settings"],
                         },
                         merchantAutoToggleButton = {
 							order	= 2,
 							type 	= "toggle",
-							name 	= "Automatically sell grey items",
-                            desc 	= "Toggles the automatic selling of grey items when the merchant window is opened.",
+							name 	= L["Automatically sell grey items"],
+                            desc 	= L["Toggles the automatic selling of grey items when the merchant window is opened."],
 							get 	= function() return addon.db.char.mAuto end,
 							set 	= function() self.db.char.mAuto = not self.db.char.mAuto end,
                         },
@@ -221,8 +222,8 @@ function addon:PopulateOptions()
                         merchantMax12ToggleButton = {
 							order 	= 4,
 							type  	= "toggle",
-							name  	= "Sell max. 12 items",
-							desc  	= "This is failsafe mode. Will sell only 12 items in one pass.",
+							name  	= L["Sell max. 12 items"],
+							desc  	= L["This is failsafe mode. Will sell only 12 items in one pass."],
 							get 	= function() return addon.db.char.max12 end,
 							set 	= function() self.db.char.max12 = not self.db.char.max12 end,
                         },
@@ -234,8 +235,8 @@ function addon:PopulateOptions()
 						merchantShowSpamToggleButton = {
                             order = 6,
                             type  = "toggle",
-                            name  = "Show 'item sold' spam",
-                            desc  = "Prints itemlinks to chat, when automatically selling items.",
+                            name  = L["Show 'item sold' spam"],
+                            desc  = L["Prints itemlinks to chat, when automatically selling items."],
                             get   = function() return self.db.char.mShowSpam end,
                             set   = function() self.db.char.mShowSpam = not self.db.char.mShowSpam end,
                         },
@@ -247,8 +248,8 @@ function addon:PopulateOptions()
                         merchantPrintGoldToggleButton = {
 							order 	= 8,
 							type  	= "toggle",
-							name  	= "Show gold gained",
-							desc  	= "Shows gold gained from selling trash.",
+							name  	= L["Show gold gained"],
+							desc  	= L["Shows gold gained from selling trash."],
 							get 	= function() return addon.db.char.mPrintGold end,
 							set 	= function() self.db.char.mPrintGold = not self.db.char.mPrintGold end,
                         },
@@ -260,13 +261,13 @@ function addon:PopulateOptions()
 						divider6 = {
 							order	= 10,
 							type	= "header",
-							name	= "Repair Settings",
+							name	= L["Repair Settings"],
 						},
 						repairAutoToggleButton = {
 							order	= 11,
 							type 	= "toggle",
-							name 	= "Automatically Repair items",
-                            desc 	= "Toggles the automatic Repair of items when the merchant window is opened.",
+							name 	= L["Automatically Repair items"],
+                            desc 	= L["Toggles the automatic Repair of items when the merchant window is opened."],
 							get 	= function() return addon.db.char.rAuto end,
 							set 	= function() self.db.char.rAuto = not self.db.char.rAuto end,
 						},
@@ -278,8 +279,8 @@ function addon:PopulateOptions()
 						repairPrintGoldToggleButton = {
 							order 	= 13,
 							type 	= "toggle",
-							name  	= "Show gold spent",
-							desc  	= "Shows gold spent from Repair items.",
+							name  	= L["Show gold spent"],
+							desc  	= L["Shows gold spent from Repair items."],
 							get 	= function() return addon.db.char.rPrintGold end,
 							set 	= function() self.db.char.rPrintGold = not self.db.char.rPrintGold end,
 						},
@@ -291,12 +292,12 @@ function addon:PopulateOptions()
 						repairModeRadioButton = {
 							order	= 15,
 							type 	= "select",
-							name    = "Repair mode",
-							desc    = "Select your Repair mode.\n1.Repairs only from your own gold.\n2.Tries to repair from guild bank, then tries to repair from your own gold.",
+							name    = L["Repair mode"],
+							desc    = L["Select your Repair mode.\n1.Repairs only from your own gold.\n2.Tries to repair from guild bank, then tries to repair from your own gold."],
 							style	= "radio",
 							values 	= {
-								[1] = "Repair from own gold",
-								[2] = "Use first guild bank",
+								[1] = L["Repair from own gold"],
+								[2] = L["Use first guild bank"],
 							},
 							get   	= function(info, value) return self.db.char.repairMode end,
 							set		= function(info, value) self.db.char.repairMode = value end,
@@ -309,13 +310,13 @@ function addon:PopulateOptions()
                         divider12 = {
 							order	= 17,
 							type	= "header",
-							name	= "Bank Settings",
+							name	= L["Bank Settings"],
                         },
                         bankAutoToggleButton = {
 							order	= 18,
 							type 	= "toggle",
-							name 	= "Automatically deposits reagents",
-                            desc 	= "Toggles the automatic deposits reagents when you open your bank window.",
+							name 	= L["Automatically deposits reagents"],
+                            desc 	= L["Toggles the automatic deposits reagents when you open your bank window."],
 							get 	= function() return addon.db.char.bAuto end,
 							set 	= function() self.db.char.bAuto = not self.db.char.bAuto end,
 						},
@@ -327,8 +328,8 @@ function addon:PopulateOptions()
 						bankSilentModeToggleButton = {
                             order = 20,
                             type  = "toggle",
-                            name  = "Show 'deposits reagents' spam",
-                            desc  = "Prints to chat, when automatically deposits reagents in your bank.",
+                            name  = L["Show 'deposits reagents' spam"],
+                            desc  = L["Prints to chat, when automatically deposits reagents in your bank."],
                             get   = function() return self.db.char.bSilentMode end,
                             set   = function() self.db.char.bSilentMode = not self.db.char.bSilentMode end,
 						},
@@ -340,14 +341,14 @@ function addon:PopulateOptions()
 						bankKeyDropdownMenu = {
 							order	= 22,
 							type 	= "select",
-							name    = "Don't run with key is down",
-							desc    = "Don't run 'deposits reagents' with key is down.",
+							name    = L["Don't run with key is down"],
+							desc    = L["Don't run 'deposits reagents' with key is down."],
 							style	= "dropdown",
 							values 	= {
-								[0] = "none",
-								[1] = "shift",
-								[2] = "ctrl",
-								[3] = "alt",
+								[0] = L["none"],
+								[1] = L["shift"],
+								[2] = L["ctrl"],
+								[3] = L["alt"],
 							},
 							get   	= function(info, value) return self.db.char.bankModKey end,
 							set		= function(info, value) self.db.char.bankModKey = value end,
@@ -360,7 +361,7 @@ function addon:PopulateOptions()
 						divider16 = {
 							order	= 24,
 							type	= "header",
-							name	= "Informations",
+							name	= L["Informations"],
 						},
 						divider17 = {
 							order	= 25,
