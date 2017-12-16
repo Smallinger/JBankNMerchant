@@ -38,17 +38,17 @@ Außerdem gibt es die Möglichkeit dir alles im Chat ausgeben zu lassen. Um die 
 
 - [x] First script creation.
 - [x] Add localization support!
--- [x] enUS!
--- [x] ruRU!
--- [ ] deDE!
--- [ ] ptBR!
--- [ ] frFR!
--- [ ] itIT!
--- [ ] koKR!
--- [ ] esES!
--- [ ] esMX!
--- [ ] zhCN!
--- [ ] zhTW!
+- [x] enUS!
+- [x] ruRU!
+- [ ] deDE!
+- [ ] ptBR!
+- [ ] frFR!
+- [ ] itIT!
+- [ ] koKR!
+- [ ] esES!
+- [ ] esMX!
+- [ ] zhCN!
+- [ ] zhTW!
 
 
 # Changelog
